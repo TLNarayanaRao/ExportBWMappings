@@ -1,0 +1,328 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "1.0",
+		"title": "UserRegistration"
+	},
+	"host": "intgtw-qa1.hcamerica.com",
+	"basePath": "/",
+	"schemes": [
+		"https"
+	],
+	"consumes": [
+		"application/json"
+	],
+	"produces": [
+		"application/json"
+	],
+	"securityDefinitions": {
+		"clientCredentialsAuth": {
+			"type": "oauth2",
+			"flow": "application",
+			"tokenUrl": "https://intgtw-qa1.hcamerica.com/hca/esb/v1/token/kop",
+			"scopes": {}
+		}
+	},
+	"security": [
+		{
+			"clientCredentialsAuth": []
+		}
+	],
+	"paths": {
+		"/hca/esb/v1/Registration/kop": {
+			"post": {
+				"summary": "ESB Rest API to do user registration and get Access key for an user",
+				"description": "postApi-v1-UserRegistration",
+				"operationId": "post-api-v1-userRegistration",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "X-Correlation-Id",
+						"in": "header",
+						"description": "Same value as the CorrelationId used in the payload",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "Origin",
+						"in": "header",
+						"description": "Domain where the request’s coming from",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "Link",
+						"in": "header",
+						"description": "API where the schema is hosted",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "Idempotency-Key",
+						"in": "header",
+						"description": "A UUID (Universally Unique Identifier) is a 128-bit label used to uniquely identify information in computer systems without requiring a central authority.Appearing as a 32-character hexadecimal string (e.g., 8be4df61-93ca-11d2-aa0d-00e098032b8c), they are designed to be globally unique across space and time, minimizing duplication risks in databases and distributed systems.",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "body",
+						"in": "body",
+						"description": "",
+						"schema": {
+							"$ref": "#/definitions/RegistrationRequestMessage"
+						},
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "a RegistrationResponseMessage to be returned",
+						"schema": {
+							"$ref": "#/definitions/RegistrationResponseMessage"
+						},
+						"headers": {}
+					},
+					"201": {
+						"description": "Created",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"202": {
+						"description": "Accepted",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"204": {
+						"description": "No Content",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"301": {
+						"description": "Moved Permanently",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"303": {
+						"description": "See Other",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"304": {
+						"description": "Not Modified",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"schema": {
+							"type": "integer"
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"307": {
+						"description": "Temporary Redirect",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"403": {
+						"description": "Forbidden",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"404": {
+						"description": "Not Found",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"500": {
+						"description": "Internal Server Error",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"406": {
+						"description": "Not Acceptable",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"503": {
+						"description": "Service Unavailable",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"409": {
+						"description": "Conflict",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"410": {
+						"description": "Gone",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"412": {
+						"description": "Precondition Failed",
+						"schema": {
+							"type": "string"
+						}
+					},
+					"415": {
+						"description": "Unsupported Media Type",
+						"schema": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"RegistrationRequestMessage": {
+			"type": "object",
+			"required": [
+				"TransactionHeader",
+				"UserRegistrationRequest"
+			],
+			"properties": {
+				"TransactionHeader": {
+					"$ref": "#/definitions/TransactionHeader"
+				},
+				"UserRegistrationRequest": {
+					"$ref": "#/definitions/UserRegistrationRequest"
+				}
+			}
+		},
+		"ResponseHeader": {
+			"type": "object",
+			"required": [
+				"Status",
+				"CorrelationId"
+			],
+			"properties": {
+				"CorrelationId": {
+					"type": "string"
+				},
+				"Status": {
+					"type": "string"
+				},
+				"TransactionId": {
+					"type": "string"
+				},
+				"ResponseCode": {
+					"type": "string"
+				},
+				"ResponseMessage": {
+					"type": "string"
+				}
+			}
+		},
+		"UserRegistrationResponse": {
+			"type": "object",
+			"properties": {
+				"AccessKey": {
+					"type": "string"
+				}
+			}
+		},
+		"TransactionHeader": {
+			"type": "object",
+			"required": [
+				"TransactionType",
+				"TransactionContext",
+				"SourceSystemName",
+				"TargetSystemName",
+				"CorrelationId",
+				"TimeStamp",
+				"TransactionId"
+			],
+			"properties": {
+				"CorrelationId": {
+					"type": "string"
+				},
+				"TransactionId": {
+					"type": "string"
+				},
+				"SourceSystemName": {
+					"type": "string"
+				},
+				"TargetSystemName": {
+					"type": "string"
+				},
+				"TransactionType": {
+					"type": "string"
+				},
+				"TransactionContext": {
+					"type": "string"
+				},
+				"TimeStamp": {
+					"type": "string"
+				}
+			}
+		},
+		"UserRegistrationRequest": {
+			"type": "object",
+			"required": [
+				"VIN",
+				"Username",
+				"SSN",
+				"DOB",
+				"Brand"
+			],
+			"properties": {
+				"Username": {
+					"type": "string"
+				},
+				"VIN": {
+					"type": "string"
+				},
+				"SSN": {
+					"type": "string"
+				},
+				"DOB": {
+					"type": "string"
+				},
+				"Brand": {
+					"type": "string"
+				}
+			}
+		},
+		"RegistrationResponseMessage": {
+			"type": "object",
+			"required": [
+				"ResponseHeader",
+				"UserRegistrationResponse"
+			],
+			"properties": {
+				"ResponseHeader": {
+					"$ref": "#/definitions/ResponseHeader"
+				},
+				"UserRegistrationResponse": {
+					"$ref": "#/definitions/UserRegistrationResponse"
+				}
+			}
+		}
+	}
+}
